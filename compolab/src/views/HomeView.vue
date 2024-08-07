@@ -35,12 +35,29 @@ const events = ref<Event[]>([
       "time": "11:00",
       "petsAllowed": false,
       "organizer": "Carey Wales"
+    },{
+      "id": 12345,
+      "category": "Halo",
+      "date": "July 22, 2022",
+      "time": "11:00",
+      "organizer": "Organizer: JM"
     }
 ])
+
+const specificEventId = 12345
 </script>
 
 <template>
-  <div class="home">
+  <div class="events">
     <EventCard v-for="event in events" :key="event.id" :event="event" />
+    <EventDetails :events="events" :eventId="specificEventId" />
+  
   </div>
 </template>
+<style scoped>
+.events {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+</style>

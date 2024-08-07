@@ -21,7 +21,13 @@ defineProps<{
   <div class = "event-class">
     <div class="event-card">
       <h2>{{  event.title }}</h2>
-      <span>@{{ event.time }} on {{ event.date }}</span>
+      <span  v-if="event.id !== 12345">@{{ event.time }} on {{ event.date }}</span>
+     
+      <div v-if="event.id === 12345" class="event-details">
+        <div class="category">{{ event.category }}</div>
+        <div class="organizer">{{ event.organizer }}</div>
+      </div>
+
     </div>
   </div>
 
@@ -39,5 +45,13 @@ defineProps<{
     transform: scale(1.01);
     box-shadow: 0 3px 12px 0 rgba(0,0,0,0.2);
   }
+
+  .event-details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-size: 16px; 
+  }
+ 
   </style>
 
