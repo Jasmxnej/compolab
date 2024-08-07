@@ -20,7 +20,7 @@ defineProps<{
 <template>
   <div class = "event-class">
     <div class="event-card">
-      <h2>{{  event.title }}</h2>
+      <h2 v-if="event.id !== 12345">{{  event.title }}</h2>
       <span  v-if="event.id !== 12345">@{{ event.time }} on {{ event.date }}</span>
      
       <div v-if="event.id === 12345" class="event-details">
