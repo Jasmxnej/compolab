@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import { Event } from '@/types'
 defineProps<{
   event: Event
@@ -18,8 +17,8 @@ defineProps<{
 </script>
 
 <template>
-  <div class = "event-class">
-    <div class="event-card">
+  <RouterLink class="event-link" :to="{name: 'event-detail-view', params: { id: event.id }}">
+     <div class="event-card">
       <h2 v-if="event.id !== 12345">{{  event.title }}</h2>
       <span  v-if="event.id !== 12345">@{{ event.time }} on {{ event.date }}</span>
      
@@ -27,9 +26,8 @@ defineProps<{
         <div class="category">{{ event.category }}</div>
         <div class="organizer">{{ event.organizer }}</div>
       </div>
-
     </div>
-  </div>
+  </RouterLink>
 
 </template>
 
@@ -51,6 +49,11 @@ defineProps<{
   flex-direction: column;
   align-items: flex-end;
   font-size: 16px; 
+  }
+
+  .event-link{
+    text-decoration: none;
+    color: #2c3e50;
   }
  
   </style>
