@@ -5,12 +5,11 @@ import { ref, onMounted, computed, watchEffect } from 'vue'
 import EventService from '@/services/EventService'
 import { useRoute, useRouter } from 'vue-router' 
 
-
 const events = ref<Event[] | null>(null)
 const totalEvents = ref(0)
 const hasNextPage = computed(() => {
-const totalPages = Math.ceil(totalEvents.value / pageSize.value) // Updated
-return page.value < totalPages
+  const totalPages = Math.ceil(totalEvents.value / pageSize.value) 
+  return page.value < totalPages
 })
 const props = defineProps({
   page: {
@@ -20,15 +19,13 @@ const props = defineProps({
 })
 const page = computed(()=> props.page)
 
-const route = useRoute()  // Added
-const router = useRouter() // Added
-const pageSize = ref(Number(route.query.pageSize) || 2) // Updated
-
+const route = useRoute()
+const router = useRouter()
+const pageSize = ref(Number(route.query.pageSize) || 2)
 
 onMounted(() => {
   watchEffect(() => {
-   
-    EventService.getEvents(pageSize.value, page.value) // Updated
+    EventService.getEvents(pageSize.value, page.value)
       .then((response) => {
         events.value = response.data
         totalEvents.value = parseInt(response.headers['x-total-count'])
@@ -36,11 +33,9 @@ onMounted(() => {
       .catch((error) => {
         console.error('There was an error!', error)
       })
-      
   })
 })
 
-// Added function to handle page size change
 function updatePageSize(size) { 
   pageSize.value = size
   router.push({
@@ -48,36 +43,37 @@ function updatePageSize(size) {
     query: {
       ...route.query,
       pageSize: pageSize.value,
-      page: 1, // Reset to page 1 when page size changes
+      page: 1, 
     },
   })
 }
-
 
 const specificEventId = 12345
 </script>
 
 <template>
-  <h1>Events For Good</h1>
-  <!-- added Page size selector -->
-  <div class="page-size-selector">
-    <label for="page-size">Events per page:</label>
-    <select id="page-size" v-model="pageSize" @change="updatePageSize(pageSize)">
-      <option v-for="n in totalEvents" :key="n" :value="n">{{ n }}</option> <!-- Updated to use totalEvents -->
+  <h1 class="mb-5">Events For Good</h1>
+  
+  <div class="flex justify-center items-center mb-5">
+    <label for="page-size" class="mr-2">Events per page:</label>
+    <select id="page-size" v-model="pageSize" @change="updatePageSize(pageSize)" class="p-1 border rounded">
+      <option v-for="n in totalEvents" :key="n" :value="n">{{ n }}</option>
     </select>
   </div>
   
-  <div class="events">
+  <div class="flex flex-col items-center">
     <EventCard v-for="event in events" :key="event.id" :event="event" />
     <EventDetails :events="events" :eventId="specificEventId" />
   </div>
-  <div class="pagination">
+  
+  <div class="flex w-[290px] mx-auto mt-5">
     <RouterLink
       id="page-prev"
       :to="{ name: 'event-list-view', query: { page: page - 1, pageSize: pageSize } }" 
       rel="prev"
       v-if="page != 1"
-    > <!-- Updated -->
+      class="flex-1 text-left text-[#2c3e50] no-underline"
+    >
       &#60; Prev Page
     </RouterLink>
 
@@ -86,13 +82,14 @@ const specificEventId = 12345
       :to="{ name: 'event-list-view', query: { page: page + 1, pageSize: pageSize } }" 
       rel="next"
       v-if="hasNextPage"
-    > <!-- Updated -->
+      class="flex-1 text-right text-[#2c3e50] no-underline"
+    >
       Next Page &#62;
     </RouterLink>
   </div>
 </template>
 
-<style scoped>
+<!-- <style scoped>
 h1 { /* New style added */
   margin-bottom: 20px;
 }
@@ -110,11 +107,6 @@ h1 { /* New style added */
 }
 
 
-.events {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
 
 .pagination {
   display: flex;
@@ -135,4 +127,4 @@ h1 { /* New style added */
 #page-next {
   text-align: right;
 }
-</style>
+</style> -->
