@@ -3,13 +3,14 @@ import EventCard from '@/components/EventCard.vue'
 import { type Event } from '@/types'
 import { ref, onMounted, computed, watchEffect } from 'vue'
 import EventService from '@/services/EventService'
-import { useRoute, useRouter } from 'vue-router' // Added
+import { useRoute, useRouter } from 'vue-router' 
+
 
 const events = ref<Event[] | null>(null)
 const totalEvents = ref(0)
 const hasNextPage = computed(() => {
-  const totalPages = Math.ceil(totalEvents.value / pageSize.value) // Updated
-  return page.value < totalPages
+const totalPages = Math.ceil(totalEvents.value / pageSize.value) // Updated
+return page.value < totalPages
 })
 const props = defineProps({
   page: {
@@ -26,7 +27,7 @@ const pageSize = ref(Number(route.query.pageSize) || 2) // Updated
 
 onMounted(() => {
   watchEffect(() => {
-    events.value = null
+   
     EventService.getEvents(pageSize.value, page.value) // Updated
       .then((response) => {
         events.value = response.data
@@ -35,6 +36,7 @@ onMounted(() => {
       .catch((error) => {
         console.error('There was an error!', error)
       })
+      
   })
 })
 
