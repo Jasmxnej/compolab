@@ -36,7 +36,7 @@ onMounted(() => {
   })
 })
 
-function updatePageSize(size) { 
+function updatePageSize(size: number) { 
   pageSize.value = size
   router.push({
     name: 'event-list-view',
