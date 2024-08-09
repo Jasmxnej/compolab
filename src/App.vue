@@ -8,6 +8,7 @@ const { message } = storeToRefs(store);
 </script>
 
 <template>
+  <SpeedInsights />
   <div class="text-center font-sans text-gray-700 antialiased">
     <header>
       <div id="flashMessage" class="animate-fade mb-4 py-2 px-4" v-if="message">
